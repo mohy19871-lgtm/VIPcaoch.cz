@@ -1,0 +1,48 @@
+name: Jekyll site CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the site in the jekyll/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+            - název: Nahrát artefakt sestavení
+  použití: actions/upload-artifact@v6.0.0
+  s:
+    # Název artefaktu
+    název: # volitelné, výchozí je artefakt
+    # Soubor, adresář nebo zástupný znak, který popisuje, co se má nahrát
+    cesta:
+    # Požadované chování, pokud se pomocí zadané cesty nenajdou žádné soubory.
+Dostupné možnosti:
+  varování: Vypsat varování, ale nenechat akci selhat
+  chyba: Akce selže s chybovou zprávou
+  ignore: Nevypisovat žádná varování ani chyby, akce se nezdaří
+
+    if-no-files-found: # volitelné, výchozí je varování
+    # Doba platnosti artefaktu (v dnech). 0 znamená použití výchozího uchování.
+Minimálně 1 den. Maximálně 90 dní, pokud se nezmění na stránce nastavení repozitáře.
+
+    dny uchování: # volitelné
+    # Úroveň komprese, která se má použít v Zlibu na archiv artefaktů. Hodnota se může pohybovat od 0 do 9: - 0: Bez komprese - 1: Nejlepší rychlost - 6: Výchozí komprese (stejná jako GNU Gzip) - 9: Nejlepší komprese Vyšší úrovně povedou k lepší kompresi, ale dokončení bude trvat déle. Pro velké soubory, které se nedají snadno komprimovat, se doporučuje hodnota 0 pro výrazně rychlejší nahrávání.
+
+    úroveň komprese: # volitelné, výchozí je 6
+    # Pokud je hodnota true, artefakt se shodným názvem bude smazán před nahráním nového. Pokud je hodnota false, akce selže, pokud artefakt s daným názvem již existuje. Neselže, pokud artefakt neexistuje.
+
+    přepsat: # volitelné, výchozí je false
+    # Pokud je hodnota true, skryté soubory budou v artefaktu zahrnuty. Pokud je hodnota false, skryté soubory budou z artefaktu vyloučeny.
+
+    include-hidden-files: # volitelné, výchozí hodnota je false
+          
